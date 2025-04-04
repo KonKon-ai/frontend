@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'OCR A Extended';
+  src: url('../public/fonts/ocraext-webfont.woff2') format('woff2'),
+       url('../public/fonts/ocraext-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ETHNOCENTRIC';
+  src: url('../public/fonts/ethnocentric_rg-webfont.woff2') format('woff2'),
+       url('../public/fonts/ethnocentric_rg-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
