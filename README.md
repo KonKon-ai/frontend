@@ -1,4 +1,36 @@
-# Welcome to Remix!
+# KonKon.AI - Film Festival (Remix - Frontend)
+
+## Installation Guide
+
+### STEP 1: Clone the repository & Change Directory
+
+```bash
+git clone git@github.com:KonKon-ai/frontend.git
+cd frontend
+```
+
+### STEP 2: Install client dependencies
+
+```bash
+npm install
+```
+
+### STEP 3: Create `.env` file in src/client
+
+```sh
+# DOMAIN FOR CONNECTING TO HOSTED BACKEND
+STRAPI_URL=INSERT_STRAPI_URL_HERE
+```
+
+Note: An .env.example file has been provided in this repository for clarity
+
+### STEP 4: Start local client
+
+```bash
+npm start
+```
+
+## Welcome to Remix!
 
 - 📖 [Remix docs](https://remix.run/docs)
 
