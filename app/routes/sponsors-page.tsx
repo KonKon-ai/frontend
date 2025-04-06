@@ -1,7 +1,7 @@
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getSponsors } from "~/data.server";
-import BorderLine from "~/components/Borderline";
+import BorderLine from "~/components/BorderLine";
 import SponsorsSection from "~/components/SponsorsSection";
 
 export const meta: MetaFunction = () => {
@@ -23,7 +23,16 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function sponsorsPage() {
-  const { heading, description, sponsors, strapiUrl } = useLoaderData();
+  const { heading, description, sponsors, strapiUrl } = useLoaderData<{
+    heading: string;
+    description: string;
+    sponsors: {
+      id: number;
+      tier: string;
+      sponsor: any[];
+    }[];
+    strapiUrl: string;
+  }>();
 
   return (
     <div>

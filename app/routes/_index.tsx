@@ -6,7 +6,7 @@ import SponsorsSection from "~/components/SponsorsSection";
 import ParallaxBanner from "~/components/ParallaxBanner";
 import StoryCategoriesSection from "~/components/StoryCategoriesSection";
 import SignupBanner from "~/components/SignupBanner";
-import BorderLine from "~/components/Borderline";
+import BorderLine from "~/components/BorderLine";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,7 +26,10 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  const { blocks, strapiUrl } = useLoaderData();
+  const { blocks, strapiUrl } = useLoaderData<{
+    blocks: any[];
+    strapiUrl: string;
+  }>();
 
   const heroBlock = blocks.find(
     (block: any) => block.__component === "blocks.hero"
