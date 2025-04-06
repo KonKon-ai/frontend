@@ -4,15 +4,17 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
-import Navbar from "./components/navbar";
-import Footer from "./components/footer";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import { getGlobalData } from "./data.server";
+import Navbar from "./components/Navbar";
+import Footer from "~/components/Footer"; // Import the Footer component
+import ErrorBoundaryContent from "~/components/ErrorBoundaryContent";
 
-import styles from "./tailwind.css?url";
+import "./tailwind.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -33,6 +35,16 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export const loader: LoaderFunction = async () => {
+  const globalData = await getGlobalData();
+  const strapiUrl = process.env.STRAPI_URL || "http://127.0.0.1:1337";
+  return Response.json({ globalData, strapiUrl });
+};
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return <ErrorBoundaryContent error={error} />;
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -42,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-secondary text-white min-h-screen">
+      <body>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -52,11 +64,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { globalData, strapiUrl } = useLoaderData<{
+    globalData: any;
+    strapiUrl: string;
+  }>();
+
   return (
-    <>
-      <Navbar />
+    <Layout>
+      <Navbar data={globalData.header} strapiUrl={strapiUrl} />
       <Outlet />
-      <Footer />
-    </>
+      <Footer data={globalData.footer} strapiUrl={strapiUrl} />
+    </Layout>
   );
 }

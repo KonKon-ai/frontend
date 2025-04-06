@@ -1,5 +1,4 @@
 import type { MetaFunction } from "@remix-run/node";
-import SignupSection from "~/components/SignupSection";
 import { FaXTwitter, FaTwitch, FaInstagram, FaYoutube } from "react-icons/fa6";
 
 export const meta: MetaFunction = () => {
@@ -65,7 +64,6 @@ export default function About() {
       </div>
       
       {/* Sign Up Section */}
-      <SignupSection />
     </div>
   );
 } 

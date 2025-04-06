@@ -5,15 +5,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#3A0D60",
-        secondary: "#180525",
-        tertiary: {
-          pink: "#EA41F7",
-          gray: "#A6A6A6",
-          turquoise: "#48D5DD"
-        }
+        aquaKonkon: '#63DCDD',
+        pinkKonkon: '#EA41F7',
+        goldKonkon: '#FFD700',
+        silverKonkon: 'C0C0C0',
+        bronzeKonkon: '#CD7F32'
       },
       fontFamily: {
+        'ocr': ['"OCR A Extended"', 'monospace'], 
+        'ethnocentric': ['Ethnocentric Rg', 'sans-serif'],   
         sans: [
           "Inter",
           "ui-sans-serif",
@@ -24,8 +24,6 @@ export default {
           "Segoe UI Symbol",
           "Noto Color Emoji",
         ],
-        'ocr': ['"OCR A Extended"', 'monospace'],
-        'ethnocentric': ['ETHNOCENTRIC', 'sans-serif'],
       },
     },
   },

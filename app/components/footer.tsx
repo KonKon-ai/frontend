@@ -1,52 +1,71 @@
-import { Link } from "@remix-run/react";
-import { FaXTwitter, FaTwitch, FaInstagram, FaYoutube } from "react-icons/fa6";
+import { buildImageUrl } from "~/utils/urlHelpers";
+import { scrollToSection } from "~/utils/scrollHelpers";
 
-export default function Footer() {
+export default function Footer({ data, strapiUrl }) {
+  const handleScrollToSponsors = () => {
+    scrollToSection("sponsors-section", 100); // Adjust offset to match navbar height
+  };
+
   return (
-    <footer className="bg-black">
-      {/* Top divider line */}
-      <div className="border-t border-gray-800 mx-4"></div>
-      
-      {/* Main footer with navigation and social links */}
-      <div className="bg-black py-8 px-16">
-        <div className="container mx-auto">
-          <div className="flex justify-between items-start">
-            {/* Logo and Navigation */}
-            <div className="flex items-start gap-8">
-              {/* Logo */}
-              <div>
-                <Link to="/" className="flex items-center">
-                  <img src="/logo-dark.png" alt="Konkon.ai Logo" className="h-16" />
-                </Link>
-              </div>
-              
-              {/* Navigation - Vertical Layout */}
-              <div>
-                <ul className="flex flex-col space-y-2 text-sm font-ocr">
-                  <li><Link to="/about" className="hover:text-tertiary-pink">About us</Link></li>
-                  <li><Link to="/team" className="hover:text-tertiary-pink">Team</Link></li>
-                  <li><Link to="/sponsors" className="hover:text-tertiary-pink">Sponsors</Link></li>
-                  <li><Link to="/contact" className="hover:text-tertiary-pink">Contact</Link></li>
-                </ul>
-              </div>
-            </div>
-            
-            {/* Social Media Icons */}
-            <div className="flex space-x-4">
-              <a href="https://twitter.com/konkonai" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-white">
-                <FaXTwitter className="text-2xl hover:text-tertiary-pink" />
-              </a>
-              <a href="https://twitch.tv/konkonai" target="_blank" rel="noopener noreferrer" aria-label="Twitch" className="text-white">
-                <FaTwitch className="text-2xl hover:text-tertiary-pink" />
-              </a>
-              <a href="https://instagram.com/konkonai" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white">
-                <FaInstagram className="text-2xl hover:text-tertiary-pink" />
-              </a>
-              <a href="https://youtube.com/c/konkonai" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-white">
-                <FaYoutube className="text-2xl hover:text-tertiary-pink" />
-              </a>
-            </div>
-          </div>
+    <footer className="bg-black text-white py-8 px-16">
+      <div className="flex flex-col sm:flex-row items-center justify-between">
+        {/* Logo */}
+        <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-10">
+          <a href={data.logo.href} className="flex items-center mb-4 md:mb-0">
+            <img
+              src={buildImageUrl(strapiUrl, data.logo.image.url)}
+              alt={data.logo.image.alternativeText || data.logo.label}
+              className="h-32 sm:h-16 w-auto"
+            />
+          </a>
+          {/* Navigation Items */}
+          <nav className="mb-4 md:mb-0">
+            <ul className="font-ocr text-sm flex flex-col">
+              {data.navItems.map((item) => (
+                <li key={item.id}>
+                  {item.label === "Sponsors" ? (
+                    <button
+                      onClick={handleScrollToSponsors}
+                      className="hover:text-pinkKonkon"
+                    >
+                      {item.label}
+                    </button>
+                  ) : (
+                    <a href={item.href} className="hover:text-pinkKonkon">
+                      {item.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        {/* Social Links */}
+        <div className="flex items-center space-x-4 sm:self-start pt-2">
+          {data.socialLinks.map((link) => (
+            <a
+              key={link.id}
+              href={link.href}
+              target={link.isExternal ? "_blank" : "_self"}
+              rel="noreferrer"
+              className="group"
+            >
+              <div
+                className="h-5 w-5 bg-white group-hover:bg-pinkKonkon"
+                style={{
+                  maskImage: `url(${buildImageUrl(strapiUrl, link.image.url)})`,
+                  WebkitMaskImage: `url(${buildImageUrl(
+                    strapiUrl,
+                    link.image.url
+                  )})`,
+                  maskSize: "cover",
+                  WebkitMaskSize: "cover",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                }}
+              ></div>
+            </a>
+          ))}
         </div>
       </div>
     </footer>

@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { FaXTwitter, FaTwitch, FaInstagram, FaYoutube } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
-import SignupSection from "~/components/SignupSection";
 
 export const meta: MetaFunction = () => {
   return [
@@ -86,7 +85,6 @@ export default function Team() {
         </div>
       </div>
       {/* Sign Up Section */}
-      <SignupSection />
     </div>
   );
 } 

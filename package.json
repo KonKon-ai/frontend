@@ -1,5 +1,5 @@
 {
-  "name": "konkon-frontend",
+  "name": "frontend-konkon",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,16 +11,16 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@remix-run/node": "^2.16.2",
-    "@remix-run/react": "^2.16.2",
-    "@remix-run/serve": "^2.16.2",
+    "@remix-run/node": "^2.16.3",
+    "@remix-run/react": "^2.16.3",
+    "@remix-run/serve": "^2.16.3",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.16.2",
+    "@remix-run/dev": "^2.16.3",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -33,18 +33,12 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.1.6",
     "vite": "^6.0.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
     "node": ">=20.0.0"
-  },
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "esbuild"
-    ]
-  },
-  "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3"
+  }
 }
