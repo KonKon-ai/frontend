@@ -98,7 +98,7 @@ export default function Navbar({
         </div>
         <button
           onClick={handleJoinWaitlistClick}
-          className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-gray-900 rounded-lg"
+          className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black  rounded-lg"
         >
           {data.cta.label}
         </button>
@@ -190,7 +190,7 @@ export default function Navbar({
                 handleJoinWaitlistClick();
                 setMobileMenuOpen(false);
               }}
-              className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-gray-900 rounded-lg"
+              className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg"
             >
               {data.cta.label}
             </button>
