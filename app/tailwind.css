@@ -7,6 +7,10 @@ body {
   @apply bg-gray-950 text-white;
 }
 
+/*-- -------------------------- -->
+<---        Animations          -->
+<--- -------------------------- -*/
+
 /* Glow effect with breathing animation */
 @keyframes breathe-glow {
   0% {
@@ -45,12 +49,7 @@ body {
   }
 }
 
-.root-error {
-  flex-direction: column;
-  justify-content: center;
-  background-color: #3498db;
 
-}
 
 @layer utilities {
   .large-heading {
