@@ -9,7 +9,7 @@ import {
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { getGlobalData } from "./data.server";
 import Navbar from "./components/Navbar";
-import Footer from "~/components/Footer"; // Import the Footer component
+import Footer from "./components/Footer"; // Import the Footer component
 import ErrorBoundaryContent from "~/components/ErrorBoundaryContent";
 
 import "./tailwind.css";
