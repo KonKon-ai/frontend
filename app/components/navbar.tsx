@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 import { buildImageUrl } from "~/utils/urlHelpers";
 import { scrollToSection } from "~/utils/scrollHelpers";
-import { useState } from "react";
 import { GrAdd } from "react-icons/gr";
 
 export default function Navbar({
@@ -11,6 +11,21 @@ export default function Navbar({
   strapiUrl: string;
 }) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Change colour of nav on scrolldown
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true); // If the user scrolls down 20px, change the state
+      } else {
+        setScrolled(false); // If the user scrolls back up, reset the state
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleToggleMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -35,7 +50,11 @@ export default function Navbar({
   };
 
   return (
-    <header className="bg-black text-white sticky top-0 z-50 py-4 px-6 flex items-center justify-between">
+    <header
+      className={`${
+        scrolled ? "bg-gray-900" : "bg-gray-950"
+      } text-white sticky top-0 z-50 py-4 px-6 flex items-center justify-between transition-all duration-300`}
+    >
       {/* Left Section: Logo + Desktop Nav */}
       <div className="flex items-center space-x-6">
         {/* Logo */}
@@ -43,7 +62,7 @@ export default function Navbar({
           <img
             src={buildImageUrl(strapiUrl, data.logo.image.url)}
             alt={data.logo.image.alternativeText || data.logo.label}
-            className="h-12 w-auto"
+            className="h-12 w-auto rounded-lg"
           />
         </a>
         {/* Desktop Navigation Items */}
@@ -54,12 +73,12 @@ export default function Navbar({
                 {item.label === "Sponsors" ? (
                   <button
                     onClick={handleScrollToSponsors}
-                    className="hover:text-pinkKonkon"
+                    className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
                   >
                     {item.label}
                   </button>
                 ) : (
-                  <a href={item.href} className="hover:text-pinkKonkon">
+                  <a href={item.href} className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2">
                     {item.label}
                   </a>
                 )}
@@ -80,7 +99,7 @@ export default function Navbar({
               className="group"
             >
               <div
-                className="h-6 w-6 bg-white group-hover:bg-pinkKonkon"
+                className="h-7 w-7 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-300 group-hover:scale-110"
                 style={{
                   maskImage: `url(${buildImageUrl(strapiUrl, link.image.url)})`,
                   WebkitMaskImage: `url(${buildImageUrl(
@@ -98,7 +117,7 @@ export default function Navbar({
         </div>
         <button
           onClick={handleJoinWaitlistClick}
-          className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black  rounded-lg"
+          className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg transition duration-700 ease-in-out"
         >
           {data.cta.label}
         </button>

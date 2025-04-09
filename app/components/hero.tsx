@@ -61,11 +61,11 @@ export default function Hero({
 
   return (
     <section className="text-center px-6 py-16 sm:py-32" id="email-section">
-      <h1 className="responsive-heading font-ethnocentric large-heading font-bold text-gray-100">
+      <h1 className="responsive-heading font-ethnocentric large-heading font-bold text-gray-100 opacity-0 animate-slidein300">
         <span className="text-pinkKonkon">{titleOne}</span>
         <span className="text-aquaKonkon">{titleTwo}</span>
       </h1>
-      <p className="font-ocr mt-6 paragraph-text text-gray-300 max-w-2xl mx-auto">
+      <p className="font-ocr mt-6 paragraph-text text-gray-300 max-w-2xl mx-auto opacity-0 animate-slidein500">
         {description}
       </p>
       {statusMessage && (
@@ -79,7 +79,7 @@ export default function Hero({
       )}
       <form
         onSubmit={handleSubmit}
-        className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+        className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-slidein700"
       >
         <input
           ref={emailInputRef}
@@ -92,7 +92,7 @@ export default function Hero({
         />
         <button
           type="submit"
-          className={`px-6 py-2 border-[1px] border-pinkKonkon bg-aquaKonkon font-ocr text-black hover:bg-gray-900 hover:text-white border-solid rounded-lg ${
+          className={`px-6 py-2 border-[1px] border-pinkKonkon bg-aquaKonkon font-ocr text-black hover:bg-gray-900 hover:text-white border-solid rounded-lg transition duration-700 ease-in-out ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           disabled={loading}
