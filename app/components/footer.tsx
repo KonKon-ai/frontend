@@ -1,7 +1,33 @@
 import { buildImageUrl } from "~/utils/urlHelpers";
 import { scrollToSection } from "~/utils/scrollHelpers";
 
-export default function Footer({ data, strapiUrl }) {
+interface FooterProps {
+  data: {
+    logo: {
+      image: {
+        url: string;
+        alternativeText?: string;
+      };
+      label: string;
+    };
+    navItems: {
+      id: string | number;
+      label: string;
+      href?: string;
+    }[];
+    socialLinks: {
+      id: string | number;
+      href: string;
+      isExternal: boolean;
+      image: {
+        url: string;
+      };
+    }[];
+  };
+  strapiUrl: string;
+}
+
+export default function Footer({ data, strapiUrl }: FooterProps) {
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top of the page smoothly
   };

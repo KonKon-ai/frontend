@@ -3,6 +3,7 @@ import {
   useMotionTemplate,
   useScroll,
   useTransform,
+  useSpring,
 } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
@@ -83,21 +84,31 @@ export default function ParallaxBanner({
     return () => window.removeEventListener("resize", updateBatmanXRange);
   }, []);
 
-  const backgroundPositionX = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["60%", "70%"]
-  ); // Pan from left to right
-  const backgroundPositionY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["10%", "60%"]
+  const springConfig = {
+    stiffness: 50, // Lower stiffness for smoother motion
+    damping: 20,   // Higher damping for less bounce
+  };
+
+  // Smooth background position
+  const backgroundPositionX = useSpring(
+    useTransform(scrollYProgress, [0, 1], ["60%", "70%"]),
+    springConfig
+  );
+  const backgroundPositionY = useSpring(
+    useTransform(scrollYProgress, [0, 1], ["10%", "60%"]),
+    springConfig
   );
   const backgroundPosition = useMotionTemplate`${backgroundPositionX} ${backgroundPositionY}`;
 
-  // Horizontal movement for the batman layer
-  const batmanPositionX = useTransform(scrollYProgress, [0, 1], batmanXRange); // Dynamically set the range
-  const batmanPositionY = useTransform(scrollYProgress, [0, 1], ["10%", "40%"]);
+  // Smooth batman layer position
+  const batmanPositionX = useSpring(
+    useTransform(scrollYProgress, [0, 1], batmanXRange),
+    springConfig
+  );
+  const batmanPositionY = useSpring(
+    useTransform(scrollYProgress, [0, 1], ["10%", "40%"]),
+    springConfig
+  );
   const batmanPosition = useMotionTemplate`${batmanPositionX} ${batmanPositionY}`;
 
   // Fade-in and fade-out effect
