@@ -210,7 +210,7 @@ export default function Navbar({
                   className="group"
                 >
                   <div
-                    className="h-6 w-6 bg-white group-hover:bg-pinkKonkon"
+                    className="h-6 w-6 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-300 group-hover:scale-110"
                     style={{
                       maskImage: `url(${buildImageUrl(
                         strapiUrl,
@@ -234,7 +234,7 @@ export default function Navbar({
                 handleJoinWaitlistClick();
                 setMobileMenuOpen(false);
               }}
-              className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg"
+              className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg transition duration-700 ease-in-out"
             >
               {data.cta.label}
             </button>

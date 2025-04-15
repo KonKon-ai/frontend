@@ -112,10 +112,10 @@ export default function ParallaxBanner({
   const batmanPosition = useMotionTemplate`${batmanPositionX} ${batmanPositionY}`;
 
   // Fade-in and fade-out effect
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.6, 1], [0, 1, 1, 0]); // Fade in at the start, fade out at the end
+  const opacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 1, 1, 0]); // Fade in at the start, fade out at the end
   const opacityFight = useTransform(
     scrollYProgress,
-    [0, 0.3, 0.7, 1],
+    [0, 0.2, 0.8, 1],
     [0, 1, 1, 0]
   ); // Fade in at the start, fade out at the end
 
