@@ -101,11 +101,11 @@ export default function ParallaxBanner({
   const batmanPosition = useMotionTemplate`${batmanPositionX} ${batmanPositionY}`;
 
   // Fade-in and fade-out effect
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.8, 1], [0, 1, 0, 0]); // Fade in at the start, fade out at the end
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.6, 1], [0, 1, 1, 0]); // Fade in at the start, fade out at the end
   const opacityFight = useTransform(
     scrollYProgress,
-    [0, 0.5, 0.9, 1],
-    [0, 1, 0, 0]
+    [0, 0.3, 0.7, 1],
+    [0, 1, 1, 0]
   ); // Fade in at the start, fade out at the end
 
   // State to store the dynamically calculated background size
@@ -166,7 +166,7 @@ export default function ParallaxBanner({
             // y: backgroundY,
             backgroundPosition: backgroundPosition, // Pan horizontally
             backgroundSize: backgroundSize,
-            // opacity: opacity,
+            opacity: opacity,
             backgroundImage: `url(${backgroundLayer})`,
           }}
           role="img"
@@ -179,7 +179,7 @@ export default function ParallaxBanner({
             // y: batmanY,
             backgroundPosition: batmanPosition, // Pan horizontally
             backgroundSize: backgroundSize,
-            // opacity: opacityFight,
+            opacity: opacityFight,
             backgroundImage: `url(${batmanLayer})`,
           }}
           role="img"
