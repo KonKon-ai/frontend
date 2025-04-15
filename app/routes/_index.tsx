@@ -1,7 +1,7 @@
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getLandingPageData } from "~/data.server";
-import Hero from "~/components/hero";
+import Hero from "~/components/Hero";
 import SponsorsSection from "~/components/SponsorsSection";
 import ParallaxBanner from "~/components/ParallaxBanner";
 import StoryCategoriesSection from "~/components/StoryCategoriesSection";
@@ -72,8 +72,9 @@ export default function Index() {
       ))}
       {parallaxBannerBlock && (
         <ParallaxBanner
-          imageUrl={`${strapiUrl}${parallaxBannerBlock.parallaxBanner.url}`}
-          altText={parallaxBannerBlock.parallaxBanner.alternativeText}
+          backgroundLayer={`${strapiUrl}${parallaxBannerBlock.backgroundLayer.url}`}
+          batmanLayer={`${strapiUrl}${parallaxBannerBlock.batmanLayer.url}`}
+          altText={"Parallax Banner"}
         />
       )}
       {storyCategoriesBlock && (
