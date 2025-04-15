@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { buildImageUrl } from "~/utils/urlHelpers";
 import { scrollToSection } from "~/utils/scrollHelpers";
 import { GrAdd } from "react-icons/gr";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Navbar({
   data,
@@ -47,6 +48,20 @@ export default function Navbar({
 
   const handleScrollToSponsors = () => {
     scrollToSection("sponsors-section", 100); // Adjust offset to match navbar height
+  };
+
+  // Framer Motion Variants for the overlay
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
+  // Framer Motion Variants for the menu items
+  const menuItemVariants = {
+    hidden: { opacity: 0, y: 100 }, // Start below and invisible
+    visible: { opacity: 1, y: 0 }, // Move to the correct position and become visible
+    exit: { opacity: 0, y: 100 }, // Move back down and become invisible
   };
 
   return (
@@ -146,101 +161,125 @@ export default function Navbar({
         />
       </div>
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed left-0 right-0 bottom-0 top-[80px] bg-black text-white flex flex-col justify-between items-center p-4 z-40 md:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          {/* Middle Section: Nav Items centered vertically */}
-          <div
-            className="flex-grow flex items-center justify-center w-full"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="fixed left-0 right-0 bottom-0 top-[80px] bg-black text-white flex flex-col justify-between items-center p-4 z-40 md:hidden"
+            initial="hidden"
+            animate={isMobileMenuOpen ? "visible" : "hidden"}
+            exit="exit"
+            variants={overlayVariants}
+            transition={{ duration: 0.4 }} // Smooth fade-in/out for the background
+            onClick={() => setMobileMenuOpen(false)}
           >
-            <nav>
-              <ul className="flex flex-col items-center space-y-4 text-2xl font-ocr">
-                {data.navItems.map((item: any) => (
-                  <li key={item.id}>
-                    {item.label === "Home" ? (
-                      <button
-                        onClick={() => {
-                          window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top of the page
-                          setMobileMenuOpen(false); // Close the mobile menu
-                        }}
-                        className="hover:text-pinkKonkon"
-                      >
-                        {item.label}
-                      </button>
-                    ) : item.label === "Sponsors" ? (
-                      <button
-                        onClick={() => {
-                          handleScrollToSponsors(); // Scroll to the sponsors section
-                          setMobileMenuOpen(false); // Close the mobile menu
-                        }}
-                        className="hover:text-pinkKonkon"
-                      >
-                        {item.label}
-                      </button>
-                    ) : (
-                      <a
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)} // Close the mobile menu for external links
-                        className="hover:text-pinkKonkon"
-                      >
-                        {item.label}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-          {/* Bottom Section: Social Links and CTA */}
-          <div
-            className="w-full flex flex-col items-center space-y-4 pb-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center space-x-3">
-              {data.socialLinks.map((link: any) => (
-                <a
-                  key={link.id}
-                  href={link.href}
-                  target={link.isExternal ? "_blank" : "_self"}
-                  rel="noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="group"
-                >
-                  <div
-                    className="h-6 w-6 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-300 group-hover:scale-110"
-                    style={{
-                      maskImage: `url(${buildImageUrl(
-                        strapiUrl,
-                        link.image.url
-                      )})`,
-                      WebkitMaskImage: `url(${buildImageUrl(
-                        strapiUrl,
-                        link.image.url
-                      )})`,
-                      maskSize: "cover",
-                      WebkitMaskSize: "cover",
-                      maskRepeat: "no-repeat",
-                      WebkitMaskRepeat: "no-repeat",
-                    }}
-                  ></div>
-                </a>
-              ))}
-            </div>
-            <button
-              onClick={() => {
-                handleJoinWaitlistClick();
-                setMobileMenuOpen(false);
-              }}
-              className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg transition duration-700 ease-in-out"
+            {/* Middle Section: Nav Items centered vertically */}
+            <div
+              className="flex-grow flex items-center justify-center w-full"
+              onClick={(e) => e.stopPropagation()}
             >
-              {data.cta.label}
-            </button>
-          </div>
-        </div>
-      )}
+              <nav>
+                <ul className="flex flex-col items-center space-y-4 text-2xl font-ocr">
+                  {data.navItems.map((item: any, index: number) => (
+                    <motion.li
+                      key={item.id}
+                      variants={menuItemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      transition={{ duration: 0.4 }} // Staggered animation
+                    >
+                      {item.label === "Home" ? (
+                        <button
+                          onClick={() => {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                            setMobileMenuOpen(false);
+                          }}
+                          className="hover:text-pinkKonkon"
+                        >
+                          {item.label}
+                        </button>
+                      ) : item.label === "Sponsors" ? (
+                        <button
+                          onClick={() => {
+                            handleScrollToSponsors();
+                            setMobileMenuOpen(false);
+                          }}
+                          className="hover:text-pinkKonkon"
+                        >
+                          {item.label}
+                        </button>
+                      ) : (
+                        <a
+                          href={item.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="hover:text-pinkKonkon"
+                        >
+                          {item.label}
+                        </a>
+                      )}
+                    </motion.li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+            {/* Bottom Section: Social Links and CTA */}
+            <div
+              className="w-full flex flex-col items-center space-y-4 pb-8"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center space-x-3">
+                {data.socialLinks.map((link: any, index: number) => (
+                  <motion.a
+                    key={link.id}
+                    href={link.href}
+                    target={link.isExternal ? "_blank" : "_self"}
+                    rel="noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="group"
+                    variants={menuItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    transition={{ duration: 0.4 }} // Staggered animation with delay
+                  >
+                    <div
+                      className="h-6 w-6 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-300 group-hover:scale-110"
+                      style={{
+                        maskImage: `url(${buildImageUrl(
+                          strapiUrl,
+                          link.image.url
+                        )})`,
+                        WebkitMaskImage: `url(${buildImageUrl(
+                          strapiUrl,
+                          link.image.url
+                        )})`,
+                        maskSize: "cover",
+                        WebkitMaskSize: "cover",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                      }}
+                    ></div>
+                  </motion.a>
+                ))}
+              </div>
+              <motion.button
+                onClick={() => {
+                  handleJoinWaitlistClick();
+                  setMobileMenuOpen(false);
+                }}
+                className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg transition duration-700 ease-in-out"
+                variants={menuItemVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ duration: 0.01 }} // CTA button animation
+              >
+                {data.cta.label}
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
