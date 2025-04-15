@@ -20,11 +20,26 @@ export const loader: LoaderFunction = async () => {
   const aboutPageData = await getAboutPageData();
   console.log("About Page Data:", aboutPageData);
   const strapiUrl = process.env.STRAPI_URL || "http://127.0.0.1:1337";
-  return { ...aboutPageData, listItem: aboutPageData.listItem, socialLink: aboutPageData.socialLinks, video: aboutPageData.video, strapiUrl };
+  return {
+    ...aboutPageData,
+    listItem: aboutPageData.listItem,
+    socialLinks: aboutPageData.socialLinks,
+    video: aboutPageData.video,
+    signupBanner: aboutPageData.signupBanner, // Include signupBanner
+    strapiUrl,
+  };
 };
 
 export default function AboutPage() {
-  const { heading, description, listItem, socialLinks, video, strapiUrl } = useLoaderData<{
+  const {
+    heading,
+    description,
+    listItem,
+    socialLinks,
+    video,
+    signupBanner, // Destructure signupBanner
+    strapiUrl,
+  } = useLoaderData<{
     heading: string;
     description: string;
     listItem: { id: number; listItem: string }[];
@@ -35,23 +50,26 @@ export default function AboutPage() {
       isExternal: boolean;
       image: { url: string; alternativeText: string };
     }[];
-    video: { 
+    video: {
       videoUrl: string;
       title: string;
       description: string;
     }[];
-    strapiUrl: string;
-    signupBannerBlock: {
-      signupLink: string;
+    signupBanner: {
+      signupLink: {
+        href: string;
+        label: string;
+      };
       logoLink: {
         href: string;
         image: { url: string; alternativeText: string };
       };
     };
+    strapiUrl: string;
   }>();
 
   return (
-    <div className="min-h-screen bg-[#180525]">
+    <div className="min-h-screen">
       {/* Video Section */}
       <div className="container mx-auto px-4 py-8">
         <div className="border border-gray-700 rounded-lg w-full max-w-3xl mx-auto aspect-video bg-[#20072C]">
@@ -121,6 +139,16 @@ export default function AboutPage() {
       </div>
       <BorderLine color="border-pinkKonkon" marginBottom="mb-1" />
       <BorderLine color="border-aquaKonkon" />
+
+      {/* Signup Banner */}
+      <SignupBanner
+        signupLink={signupBanner.signupLink}
+        logoLink={{
+          href: signupBanner.logoLink.href,
+          imageUrl: buildImageUrl(strapiUrl, signupBanner.logoLink.image.url),
+          altText: signupBanner.logoLink.image.alternativeText,
+        }}
+      />
     </div>
   );
 }
