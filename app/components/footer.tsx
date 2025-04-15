@@ -2,6 +2,10 @@ import { buildImageUrl } from "~/utils/urlHelpers";
 import { scrollToSection } from "~/utils/scrollHelpers";
 
 export default function Footer({ data, strapiUrl }) {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top of the page smoothly
+  };
+  
   const handleScrollToSponsors = () => {
     scrollToSection("sponsors-section", 100); // Adjust offset to match navbar height
   };
@@ -11,16 +15,19 @@ export default function Footer({ data, strapiUrl }) {
       <div className="flex flex-col sm:flex-row items-center justify-between">
         {/* Logo */}
         <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-10">
-          <a href={data.logo.href} className="flex items-center mb-4 md:mb-0">
+          <button
+            onClick={handleScrollToTop}
+            className="flex items-center mb-4 md:mb-0"
+          >
             <img
               src={buildImageUrl(strapiUrl, data.logo.image.url)}
               alt={data.logo.image.alternativeText || data.logo.label}
               className="h-32 sm:h-16 w-auto"
             />
-          </a>
+          </button>
           {/* Navigation Items */}
           <nav className="mb-4 md:mb-0">
-            <ul className="font-ocr text-sm flex flex-col">
+            <ul className="font-ocr text-sm flex flex-col items-center sm:place-items-start">
               {data.navItems.map((item) => (
                 <li key={item.id}>
                   {item.label === "Sponsors" ? (

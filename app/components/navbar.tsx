@@ -58,19 +58,31 @@ export default function Navbar({
       {/* Left Section: Logo + Desktop Nav */}
       <div className="flex items-center space-x-6">
         {/* Logo */}
-        <a href={data.logo.href} className="flex items-center">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="flex items-center"
+        >
           <img
             src={buildImageUrl(strapiUrl, data.logo.image.url)}
             alt={data.logo.image.alternativeText || data.logo.label}
             className="h-12 w-auto rounded-lg"
           />
-        </a>
+        </button>
         {/* Desktop Navigation Items */}
-        <nav className="hidden sm:block">
+        <nav className="hidden md:block">
           <ul className="flex font-ocr items-center space-x-4">
             {data.navItems.map((item: any) => (
               <li key={item.id}>
-                {item.label === "Sponsors" ? (
+                {item.label === "Home" ? (
+                  <button
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
+                    className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
+                  >
+                    {item.label}
+                  </button>
+                ) : item.label === "Sponsors" ? (
                   <button
                     onClick={handleScrollToSponsors}
                     className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
@@ -78,7 +90,10 @@ export default function Navbar({
                     {item.label}
                   </button>
                 ) : (
-                  <a href={item.href} className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2">
+                  <a
+                    href={item.href}
+                    className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
+                  >
                     {item.label}
                   </a>
                 )}
@@ -88,7 +103,7 @@ export default function Navbar({
         </nav>
       </div>
       {/* Right Section: Desktop Social Links + CTA */}
-      <div className="hidden sm:flex items-center space-x-4">
+      <div className="hidden md:flex items-center space-x-4">
         <div className="flex items-center space-x-3">
           {data.socialLinks.map((link: any) => (
             <a
@@ -123,7 +138,7 @@ export default function Navbar({
         </button>
       </div>
       {/* Mobile Hamburger Icon */}
-      <div className="sm:hidden" onClick={handleToggleMenu}>
+      <div className="md:hidden" onClick={handleToggleMenu}>
         <GrAdd
           className={`text-4xl hover:text-pinkKonkon transform transition-transform duration-300 ${
             isMobileMenuOpen ? "rotate-45" : ""
@@ -133,7 +148,7 @@ export default function Navbar({
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed left-0 right-0 bottom-0 top-[64px] bg-black text-white flex flex-col justify-between items-center p-4 z-40 sm:hidden"
+          className="fixed left-0 right-0 bottom-0 top-[80px] bg-black text-white flex flex-col justify-between items-center p-4 z-40 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         >
           {/* Middle Section: Nav Items centered vertically */}
@@ -145,11 +160,21 @@ export default function Navbar({
               <ul className="flex flex-col items-center space-y-4 text-2xl font-ocr">
                 {data.navItems.map((item: any) => (
                   <li key={item.id}>
-                    {item.label === "Sponsors" ? (
+                    {item.label === "Home" ? (
                       <button
                         onClick={() => {
-                          handleScrollToSponsors();
-                          setMobileMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top of the page
+                          setMobileMenuOpen(false); // Close the mobile menu
+                        }}
+                        className="hover:text-pinkKonkon"
+                      >
+                        {item.label}
+                      </button>
+                    ) : item.label === "Sponsors" ? (
+                      <button
+                        onClick={() => {
+                          handleScrollToSponsors(); // Scroll to the sponsors section
+                          setMobileMenuOpen(false); // Close the mobile menu
                         }}
                         className="hover:text-pinkKonkon"
                       >
@@ -158,7 +183,7 @@ export default function Navbar({
                     ) : (
                       <a
                         href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={() => setMobileMenuOpen(false)} // Close the mobile menu for external links
                         className="hover:text-pinkKonkon"
                       >
                         {item.label}

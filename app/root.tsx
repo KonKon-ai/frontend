@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import { getGlobalData } from "./data.server";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar";
 import Footer from "./components/Footer"; // Import the Footer component
 import ErrorBoundaryContent from "~/components/ErrorBoundaryContent";
 
