@@ -72,7 +72,7 @@ export default function ParallaxBanner({
       if (viewportWidth >= 1000) {
         setBatmanXRange(["60%", "30%"]); // For viewports 1000px or wider
       } else {
-        setBatmanXRange(["60%", "45%"]); // For smaller viewports
+        setBatmanXRange(["60%", "50%"]); // For smaller viewports
       }
     };
 
