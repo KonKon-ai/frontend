@@ -73,7 +73,7 @@ export default function Navbar({
                 {item.label === "Sponsors" ? (
                   <button
                     onClick={handleScrollToSponsors}
-                    className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
+                    className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
                   >
                     {item.label}
                   </button>
