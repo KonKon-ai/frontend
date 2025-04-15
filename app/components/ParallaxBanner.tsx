@@ -3,6 +3,7 @@ import {
   useMotionTemplate,
   useScroll,
   useTransform,
+  useSpring,
 } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
@@ -17,7 +18,7 @@ export default function ParallaxBanner({
   backgroundLayer,
   batmanLayer,
   altText = "Parallax Banner",
-  height = " 450px",
+  height = "450px",
 }: ParallaxBannerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -30,58 +31,96 @@ export default function ParallaxBanner({
   // State to store the dynamically calculated height
   const [bannerHeight, setBannerHeight] = useState(height);
 
-  // Dynamically calculate height based on viewport width
+  // State to store the dynamically calculated buffer height
+  const [bufferHeight, setBufferHeight] = useState("90px");
+
+  // State to store the dynamically calculated batman position range
+  const [batmanXRange, setBatmanXRange] = useState(["60%", "45%"]);
+
+  // Dynamically calculate heights based on viewport width
   useEffect(() => {
-    const calculateHeight = () => {
+    const calculateHeights = () => {
       const viewportWidth = window.innerWidth;
 
-      // Calculate height as a fraction of the viewport width
-      let calculatedHeight = viewportWidth * 0.25; // Example: 50% of the viewport width
-
-      // Apply min and max height constraints
+      // Calculate banner height
+      let calculatedBannerHeight = viewportWidth * 0.25; // Example: 25% of the viewport width
       const minHeight = 250; // Minimum height in pixels
       const maxHeight = 450; // Maximum height in pixels
-      calculatedHeight = Math.max(minHeight, Math.min(calculatedHeight, maxHeight));
+      calculatedBannerHeight = Math.max(
+        minHeight,
+        Math.min(calculatedBannerHeight, maxHeight)
+      );
+      setBannerHeight(`${calculatedBannerHeight}px`);
 
-      setBannerHeight(`${calculatedHeight}px`);
+      // Calculate buffer height as 20% of the banner height
+      const calculatedBufferHeight = calculatedBannerHeight * 0.55; // 20% of banner height
+      setBufferHeight(`${calculatedBufferHeight}px`);
     };
 
-    // Calculate the height on initial render
-    calculateHeight();
+    // Calculate heights on initial render
+    calculateHeights();
 
-    // Recalculate the height on window resize
-    window.addEventListener("resize", calculateHeight);
-    return () => window.removeEventListener("resize", calculateHeight);
+    // Recalculate heights on window resize
+    window.addEventListener("resize", calculateHeights);
+    return () => window.removeEventListener("resize", calculateHeights);
   }, []);
 
-  // Parallax effect for layers
-  // const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 300]); // Moves the most
-  // const batmanY = useTransform(scrollYProgress, [0, 1], [200, 150]); // Moves less
+  // Dynamically adjust the batman position range based on viewport width
+  useEffect(() => {
+    const updateBatmanXRange = () => {
+      const viewportWidth = window.innerWidth;
+      if (viewportWidth >= 1000) {
+        setBatmanXRange(["60%", "30%"]); // For viewports 1000px or wider
+      } else {
+        setBatmanXRange(["60%", "50%"]); // For smaller viewports
+      }
+    };
 
-  const backgroundPositionX = useTransform(scrollYProgress, [0, 1], ["50%", "60%"]); // Pan from left to right
-  const backgroundPositionY = useTransform(scrollYProgress, [0, 1], ["10%", "60%"]);
+    // Set the initial range
+    updateBatmanXRange();
+
+    // Update the range on window resize
+    window.addEventListener("resize", updateBatmanXRange);
+    return () => window.removeEventListener("resize", updateBatmanXRange);
+  }, []);
+
+  const springConfig = {
+    stiffness: 50, // Lower stiffness for smoother motion
+    damping: 20,   // Higher damping for less bounce
+  };
+
+  // Smooth background position
+  const backgroundPositionX = useSpring(
+    useTransform(scrollYProgress, [0, 1], ["60%", "70%"]),
+    springConfig
+  );
+  const backgroundPositionY = useSpring(
+    useTransform(scrollYProgress, [0, 1], ["10%", "60%"]),
+    springConfig
+  );
   const backgroundPosition = useMotionTemplate`${backgroundPositionX} ${backgroundPositionY}`;
 
-  // Horizontal movement for the batman layer
-  const batmanPositionX = useTransform(scrollYProgress, [0, 1], ["60%", "45%"]); // Pan from right to left
-  const batmanPositionY = useTransform(scrollYProgress, [0, 1], ["10%", "40%"]);
+  // Smooth batman layer position
+  const batmanPositionX = useSpring(
+    useTransform(scrollYProgress, [0, 1], batmanXRange),
+    springConfig
+  );
+  const batmanPositionY = useSpring(
+    useTransform(scrollYProgress, [0, 1], ["10%", "40%"]),
+    springConfig
+  );
   const batmanPosition = useMotionTemplate`${batmanPositionX} ${batmanPositionY}`;
 
   // Fade-in and fade-out effect
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.8, 1], [0, 1, 0, 0]); // Fade in at the start, fade out at the end
+  const opacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 1, 1, 0]); // Fade in at the start, fade out at the end
   const opacityFight = useTransform(
     scrollYProgress,
-    [0, 0.5, 0.9, 1],
-    [0, 1, 0, 0]
+    [0, 0.2, 0.8, 1],
+    [0, 1, 1, 0]
   ); // Fade in at the start, fade out at the end
 
-  // const clip1 = useTransform(scrollYProgress, [0, 1], [90, 100]);
-  // const clip2 = useTransform(scrollYProgress, [0, 1], [5, 0]);
-
-  // const clipPath = useMotionTemplate`polygon(${clip1}% ${clip1}%, ${clip2}% ${clip1}%, ${clip2}% ${clip2}%, ${clip1}% ${clip2}%)`;
-
   // State to store the dynamically calculated background size
-  const [backgroundSize, setBackgroundSize] = useState("100%");
+  const [backgroundSize, setBackgroundSize] = useState("400%");
 
   // Dynamically calculate background size based on viewport size
   useEffect(() => {
@@ -117,38 +156,55 @@ export default function ParallaxBanner({
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className="relative w-screen overflow-hidden"
-      style={{ height: bannerHeight }}
-    >
-      {/* Bottom Layer: Background */}
-      <motion.div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+    <div className="relative w-screen overflow-hidden">
+      {/* Top Buffer: Gradient */}
+      <div
+        className="absolute top-0 left-0 w-full z-10"
         style={{
-          // y: backgroundY,
-          backgroundPosition: backgroundPosition, // Pan horizontally
-          backgroundSize: backgroundSize,
-          // opacity: opacity,
-          // clipPath: clipPath,
-          backgroundImage: `url(${backgroundLayer})`,
+          height: bufferHeight, // Dynamically calculated height
+          background: "linear-gradient(to bottom, #030712, transparent)", // Adjust colors as needed
         }}
-        role="img"
-        aria-label={`${altText} – background`}
-      />
-      {/* Top Layer: Batman */}
-      <motion.div
-        className="absolute top-0 left-0 w-[110%] h-full bg-cover bg-center"
+      ></div>
+      <div
+        ref={ref}
+        className="relative w-screen overflow-hidden"
+        style={{ height: bannerHeight }}
+      >
+        {/* Bottom Layer: Background */}
+        <motion.div
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+          style={{
+            // y: backgroundY,
+            backgroundPosition: backgroundPosition, // Pan horizontally
+            backgroundSize: backgroundSize,
+            opacity: opacity,
+            backgroundImage: `url(${backgroundLayer})`,
+          }}
+          role="img"
+          aria-label={`${altText} – background`}
+        />
+        {/* Top Layer: Batman */}
+        <motion.div
+          className="absolute top-0 left-0 w-[110%] h-full bg-cover bg-center"
+          style={{
+            // y: batmanY,
+            backgroundPosition: batmanPosition, // Pan horizontally
+            backgroundSize: backgroundSize,
+            opacity: opacityFight,
+            backgroundImage: `url(${batmanLayer})`,
+          }}
+          role="img"
+          aria-label={`${altText} – combat layer`}
+        />
+      </div>
+      {/* Bottom Buffer: Gradient */}
+      <div
+        className="absolute bottom-0 left-0 w-full"
         style={{
-          // y: batmanY,
-          backgroundPosition: batmanPosition, // Pan horizontally
-          backgroundSize: backgroundSize,
-          // opacity: opacityFight,
-          backgroundImage: `url(${batmanLayer})`,
+          height: bufferHeight, // Dynamically calculated height
+          background: "linear-gradient(to top, #030712, transparent)", // Adjust colors as needed
         }}
-        role="img"
-        aria-label={`${altText} – combat layer`}
-      />
+      ></div>
     </div>
   );
 }

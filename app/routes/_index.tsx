@@ -1,7 +1,7 @@
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getLandingPageData } from "~/data.server";
-import Hero from "~/components/Hero";
+import Hero from "~/components/hero";
 import SponsorsSection from "~/components/SponsorsSection";
 import ParallaxBanner from "~/components/ParallaxBanner";
 import StoryCategoriesSection from "~/components/StoryCategoriesSection";
@@ -37,11 +37,9 @@ export default function Index() {
   const sponsorsBlock = blocks.filter(
     (block: any) => block.__component === "blocks.sponsors"
   );
-  // Change from filter to find for a single parallax banner block:
   const parallaxBannerBlock = blocks.find(
     (block: any) => block.__component === "blocks.parallax-banner"
   );
-  console.log("parallaxBannerBlock:", parallaxBannerBlock);
   const storyCategoriesBlock = blocks.find(
     (block: any) => block.__component === "blocks.story-categories"
   );
@@ -77,7 +75,6 @@ export default function Index() {
           backgroundLayer={`${strapiUrl}${parallaxBannerBlock.backgroundLayer[0].url}`}
           batmanLayer={`${strapiUrl}${parallaxBannerBlock.batmanLayer[0].url}`}
           altText={"Parallax Banner"}
-          // height="300px"
         />
       )}
       {storyCategoriesBlock && (

@@ -12,7 +12,10 @@ interface SignupBannerProps {
   };
 }
 
-export default function SignupBanner({ signupLink, logoLink }: SignupBannerProps) {
+export default function SignupBanner({
+  signupLink,
+  logoLink,
+}: SignupBannerProps) {
   const handleSignupClick = (event: React.MouseEvent) => {
     event.preventDefault(); // Prevent default link behavior
 
@@ -31,7 +34,7 @@ export default function SignupBanner({ signupLink, logoLink }: SignupBannerProps
 
   return (
     <section className="pt-16 sm:py-24 bg-black text-white text-center">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
         <a
           href={signupLink.href}
           onClick={handleSignupClick} // Attach the click handler
@@ -39,13 +42,17 @@ export default function SignupBanner({ signupLink, logoLink }: SignupBannerProps
         >
           {signupLink.label}
         </a>
-        <a href={logoLink.href}>
+        <button
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           <img
             src={logoLink.imageUrl}
             alt={logoLink.altText || "KonKon.AI Logo"}
             className="hidden sm:flex h-20 sm:h-32 w-auto"
           />
-        </a>
+        </button>
       </div>
     </section>
   );
