@@ -37,9 +37,11 @@ export default function Index() {
   const sponsorsBlock = blocks.filter(
     (block: any) => block.__component === "blocks.sponsors"
   );
+  // Change from filter to find for a single parallax banner block:
   const parallaxBannerBlock = blocks.find(
     (block: any) => block.__component === "blocks.parallax-banner"
   );
+  console.log("parallaxBannerBlock:", parallaxBannerBlock);
   const storyCategoriesBlock = blocks.find(
     (block: any) => block.__component === "blocks.story-categories"
   );
@@ -72,8 +74,10 @@ export default function Index() {
       ))}
       {parallaxBannerBlock && (
         <ParallaxBanner
-          imageUrl={`${strapiUrl}${parallaxBannerBlock.parallaxBanner.url}`}
-          altText={parallaxBannerBlock.parallaxBanner.alternativeText}
+          backgroundLayer={`${strapiUrl}${parallaxBannerBlock.backgroundLayer[0].url}`}
+          batmanLayer={`${strapiUrl}${parallaxBannerBlock.batmanLayer[0].url}`}
+          altText={"Parallax Banner"}
+          // height="300px"
         />
       )}
       {storyCategoriesBlock && (

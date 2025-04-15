@@ -1,69 +1,126 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction, LoaderFunction } from "@remix-run/node";
+import { buildImageUrl } from "~/utils/urlHelpers";
+import { useLoaderData } from "@remix-run/react";
+import { getAboutPageData } from "~/data.server";
+import BorderLine from "~/components/BorderLine";
+import SignupBanner from "~/components/SignupBanner";
 import { FaXTwitter, FaTwitch, FaInstagram, FaYoutube } from "react-icons/fa6";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Konkon.ai - About Us" },
-    { name: "description", content: "Learn more about Konkon.ai and our mission." },
+    {
+      name: "description",
+      content: "Learn more about Konkon.ai and our mission.",
+    },
   ];
 };
 
-export default function About() {
+export const loader: LoaderFunction = async () => {
+  const aboutPageData = await getAboutPageData();
+  console.log("About Page Data:", aboutPageData);
+  const strapiUrl = process.env.STRAPI_URL || "http://127.0.0.1:1337";
+  return { ...aboutPageData, listItem: aboutPageData.listItem, socialLink: aboutPageData.socialLinks, video: aboutPageData.video, strapiUrl };
+};
+
+export default function AboutPage() {
+  const { heading, description, listItem, socialLinks, video, strapiUrl } = useLoaderData<{
+    heading: string;
+    description: string;
+    listItem: { id: number; listItem: string }[];
+    socialLinks: {
+      id: number;
+      href: string;
+      label: string;
+      isExternal: boolean;
+      image: { url: string; alternativeText: string };
+    }[];
+    video: { 
+      videoUrl: string;
+      title: string;
+      description: string;
+    }[];
+    strapiUrl: string;
+    signupBannerBlock: {
+      signupLink: string;
+      logoLink: {
+        href: string;
+        image: { url: string; alternativeText: string };
+      };
+    };
+  }>();
+
   return (
     <div className="min-h-screen bg-[#180525]">
-      {/* Video Space */}
+      {/* Video Section */}
       <div className="container mx-auto px-4 py-8">
         <div className="border border-gray-700 rounded-lg w-full max-w-3xl mx-auto aspect-video bg-[#20072C]">
-          {/* Video will be added here later */}
+          {video.length > 0 && (
+            <iframe
+              src={video[0].videoUrl.replace("watch?v=", "embed/")} // Convert YouTube URL to embed format
+              title={video[0].title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          )}
         </div>
       </div>
-      
-      {/* Divider Line */}
-      <div className="border-t border-gray-800 mx-4 my-6"></div>
-      
+
+      <BorderLine color="border-pinkKonkon" marginBottom="mb-1" />
+      <BorderLine color="border-aquaKonkon" />
+
       {/* About Us Content */}
       <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-5xl font-bold mb-8 font-ethnocentric text-white tracking-wider">ABOUT US</h1>
-        
+        <h1 className="text-5xl font-bold mb-8 font-ethnocentric text-white tracking-wider">
+          {heading}
+        </h1>
+
         <div className="max-w-2xl mx-auto mb-8">
           <p className="text-white font-ocr mb-6 leading-relaxed">
-            Lorem ipsum usus possint que nos copia nos et abundans ferina universis. Lorem ipsum usus possint que nos copia nos et abundans ferina universis.
+            {description}
           </p>
-          
+
           <ul className="text-left space-y-4 text-white font-ocr">
-            <li className="flex items-start">
-              <span className="text-white mr-2 mt-1">•</span>
-              <p>Lorem ipsum usus possint que nos copia nos et abundans ferina universis Lorem ipsum</p>
-            </li>
-            <li className="flex items-start">
-              <span className="text-white mr-2 mt-1">•</span>
-              <p>Lorem ipsum usus possint que nos copia nos et abundans ferina universis Lorem ipsum</p>
-            </li>
-            <li className="flex items-start">
-              <span className="text-white mr-2 mt-1">•</span>
-              <p>Lorem ipsum usus possint que nos copia nos et abundans ferina universis Lorem ipsum</p>
-            </li>
+            {listItem.map((item) => (
+              <li key={item.id} className="flex items-start">
+                <span className="text-white mr-2 mt-1">•</span>
+                <p>{item.listItem}</p>
+              </li>
+            ))}
           </ul>
         </div>
-        
+
         {/* Social Media Icons */}
         <div className="flex justify-center space-x-4 mb-8">
-          <a href="https://twitter.com/konkonai" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-white">
-            <FaXTwitter className="text-2xl hover:text-tertiary-pink" />
-          </a>
-          <a href="https://twitch.tv/konkonai" target="_blank" rel="noopener noreferrer" aria-label="Twitch" className="text-white">
-            <FaTwitch className="text-2xl hover:text-tertiary-pink" />
-          </a>
-          <a href="https://instagram.com/konkonai" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white">
-            <FaInstagram className="text-2xl hover:text-tertiary-pink" />
-          </a>
-          <a href="https://youtube.com/c/konkonai" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-white">
-            <FaYoutube className="text-2xl hover:text-tertiary-pink" />
-          </a>
+          {socialLinks.map((link: any) => (
+            <a
+              key={link.id}
+              href={link.href}
+              target={link.isExternal ? "_blank" : "_self"}
+              rel="noreferrer"
+              className="group"
+            >
+              <div
+                className="h-5 w-5 bg-white group-hover:bg-pinkKonkon"
+                style={{
+                  maskImage: `url(${buildImageUrl(strapiUrl, link.image.url)})`,
+                  WebkitMaskImage: `url(${buildImageUrl(
+                    strapiUrl,
+                    link.image.url
+                  )})`,
+                  maskSize: "cover",
+                  WebkitMaskSize: "cover",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                }}
+              ></div>
+            </a>
+          ))}
         </div>
       </div>
-      
-      {/* Sign Up Section */}
+      <BorderLine color="border-pinkKonkon" marginBottom="mb-1" />
+      <BorderLine color="border-aquaKonkon" />
     </div>
   );
-} 
+}

@@ -66,7 +66,7 @@ export default function Navbar({
           />
         </a>
         {/* Desktop Navigation Items */}
-        <nav className="hidden sm:block">
+        <nav className="hidden md:block">
           <ul className="flex font-ocr items-center space-x-4">
             {data.navItems.map((item: any) => (
               <li key={item.id}>
@@ -88,7 +88,7 @@ export default function Navbar({
         </nav>
       </div>
       {/* Right Section: Desktop Social Links + CTA */}
-      <div className="hidden sm:flex items-center space-x-4">
+      <div className="hidden md:flex items-center space-x-4">
         <div className="flex items-center space-x-3">
           {data.socialLinks.map((link: any) => (
             <a
@@ -123,7 +123,7 @@ export default function Navbar({
         </button>
       </div>
       {/* Mobile Hamburger Icon */}
-      <div className="sm:hidden" onClick={handleToggleMenu}>
+      <div className="md:hidden" onClick={handleToggleMenu}>
         <GrAdd
           className={`text-4xl hover:text-pinkKonkon transform transition-transform duration-300 ${
             isMobileMenuOpen ? "rotate-45" : ""
@@ -133,7 +133,7 @@ export default function Navbar({
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed left-0 right-0 bottom-0 top-[64px] bg-black text-white flex flex-col justify-between items-center p-4 z-40 sm:hidden"
+          className="fixed left-0 right-0 bottom-0 top-[64px] bg-black text-white flex flex-col justify-between items-center p-4 z-40 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         >
           {/* Middle Section: Nav Items centered vertically */}

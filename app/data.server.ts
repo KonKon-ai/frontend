@@ -135,3 +135,19 @@ export async function getSponsors() {
     throw error;
   }
 }
+
+export async function getAboutPageData() {
+  try {
+    const response = await fetch(strapiBaseUrl + "/api/about");
+    const data = await response.json();
+
+    // Flatten the data returned by Strapi
+    const aboutPageData = flattenAttributes(data.data);
+    console.dir(aboutPageData, { depth: null });
+
+    return aboutPageData;
+  } catch (error) {
+    console.error("Error fetching about page data", error);
+    throw error;
+  }
+}

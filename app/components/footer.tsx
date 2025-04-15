@@ -20,7 +20,7 @@ export default function Footer({ data, strapiUrl }) {
           </a>
           {/* Navigation Items */}
           <nav className="mb-4 md:mb-0">
-            <ul className="font-ocr text-sm flex flex-col">
+            <ul className="font-ocr text-sm flex flex-col items-center sm:place-items-start">
               {data.navItems.map((item) => (
                 <li key={item.id}>
                   {item.label === "Sponsors" ? (
