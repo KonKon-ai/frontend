@@ -38,7 +38,7 @@ export default function SponsorsSection({
         {tier}
       </h2>
       {/* Rectangle encapsulating all sponsors */}
-      <div className={`bg-black border-gray-800 border-[2px] rounded-lg shadow-lg m-12 p-6 mx-auto w-9/12 max-w-3xl`}>
+      <div className={`bg-black border-gray-800 border-[2px] rounded-lg shadow-lg m-12 p-6 mx-auto w-9/12 max-w-5xl`}>
         <div className="flex flex-wrap justify-center items-center gap-12">
           {sponsors.map((sponsor) => (
             <a

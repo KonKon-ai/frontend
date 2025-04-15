@@ -1,6 +1,6 @@
 export default function ErrorBoundaryContent({ error }: { error?: Error }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-950 text-white px-4">
+    <div id="root-error" className="flex flex-col items-center justify-center min-h-screen bg-gray-950 text-white px-4">
       <h1 className="font-ethnocentric text-xl sm:text-3xl font-bold px-8 mb-4 text-center">
         Something went wrong
       </h1>
