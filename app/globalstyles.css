@@ -2,8 +2,8 @@
 
 @font-face {
     font-family: 'OCR A Extended';
-    src: url('/path/to/ocr-a-extended.woff2') format('woff2'),
-         url('/path/to/ocr-a-extended.woff') format('woff');
+    src: url('/fonts/OCRAExtended.woff2') format('woff2'),
+         url('/fonts/OCRAExtended.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Ensures that the text is visible using the fallback font until the custom font is loaded */
