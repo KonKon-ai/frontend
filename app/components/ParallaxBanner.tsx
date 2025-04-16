@@ -86,7 +86,7 @@ export default function ParallaxBanner({
 
   const springConfig = {
     stiffness: 50, // Lower stiffness for smoother motion
-    damping: 20,   // Higher damping for less bounce
+    damping: 25,   // Higher damping for less bounce
   };
 
   // Smooth background position
@@ -102,7 +102,7 @@ export default function ParallaxBanner({
 
   // Smooth batman layer position
   const batmanPositionX = useSpring(
-    useTransform(scrollYProgress, [0, 1], batmanXRange),
+    useTransform(scrollYProgress, [0.2, 0.8], batmanXRange),
     springConfig
   );
   const batmanPositionY = useSpring(
