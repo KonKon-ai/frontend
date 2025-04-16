@@ -3,6 +3,7 @@ import { buildImageUrl } from "~/utils/urlHelpers";
 import { scrollToSection } from "~/utils/scrollHelpers";
 import { GrAdd } from "react-icons/gr";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate, useLocation } from "@remix-run/react";
 
 export default function Navbar({
   data,
@@ -13,6 +14,9 @@ export default function Navbar({
 }) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Change colour of nav on scrolldown
   useEffect(() => {
@@ -46,8 +50,20 @@ export default function Navbar({
     }
   };
 
+  // THIS CAN BE REMOVED --------------------------------------------------------------------------------
   const handleScrollToSponsors = () => {
     scrollToSection("sponsors-section", 100); // Adjust offset to match navbar height
+  };
+  // THIS CAN BE REMOVED --------------------------------------------------------------------------------
+
+  const handleNavigateToHome = () => {
+    if (location.pathname === "/") {
+      // If already on the landing page, scroll to the top
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // Navigate to the landing page
+      navigate("/");
+    }
   };
 
   // Framer Motion Variants for the overlay
@@ -73,10 +89,7 @@ export default function Navbar({
       {/* Left Section: Logo + Desktop Nav */}
       <div className="flex items-center space-x-6">
         {/* Logo */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center"
-        >
+        <button onClick={handleNavigateToHome} className="flex items-center">
           <img
             src={buildImageUrl(strapiUrl, data.logo.image.url)}
             alt={data.logo.image.alternativeText || data.logo.label}
@@ -90,16 +103,7 @@ export default function Navbar({
               <li key={item.id}>
                 {item.label === "Home" ? (
                   <button
-                    onClick={() =>
-                      window.scrollTo({ top: 0, behavior: "smooth" })
-                    }
-                    className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
-                  >
-                    {item.label}
-                  </button>
-                ) : item.label === "Sponsors" ? (
-                  <button
-                    onClick={handleScrollToSponsors}
+                    onClick={handleNavigateToHome}
                     className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
                   >
                     {item.label}
