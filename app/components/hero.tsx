@@ -62,8 +62,8 @@ export default function Hero({
   return (
     <section className="text-center px-6 py-16 sm:py-32" id="email-section">
       <h1 className="responsive-heading font-ethnocentric large-heading font-bold text-gray-100 opacity-0 animate-slidein300">
-        <span className="text-pinkKonkon">{titleOne}</span>
-        <span className="text-aquaKonkon">{titleTwo}</span>
+        <span data-text={titleOne} className="text-pinkKonkon glitch-effect">{titleOne}</span>
+        <span data-text={titleTwo} className="text-aquaKonkon glitch-effect">{titleTwo}</span>
       </h1>
       <p className="font-ocr mt-6 paragraph-text text-gray-300 max-w-2xl mx-auto opacity-0 animate-slidein500">
         {description}
