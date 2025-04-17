@@ -36,6 +36,15 @@ export default function SponsorsSection({
       ? "text-bronzeKonkon"
       : "text-white"; // Default color if no match
 
+    const flickerClass =
+    tier === "Tier 1 Sponsors"
+      ? "flicker-tier-1"
+      : tier === "Tier 2 Sponsors"
+      ? "flicker-tier-2"
+      : tier === "Tier 3 Sponsors"
+      ? "flicker-tier-3"
+      : "";
+
   // Alternate slide direction by tierIndex (tierIndex prop is optional)
   const slideDirection = (tierIndex ?? 0) % 2 === 0 ? -100 : 100;
 
@@ -81,7 +90,7 @@ export default function SponsorsSection({
     </h2>
 
     {/* Rectangle encapsulating all sponsors */}
-    <div className="bg-black border-gray-800 border-[2px] rounded-lg shadow-lg m-12 p-6 mx-auto w-9/12 max-w-5xl">
+    <div className={`bg-black ${flickerClass} border-gray-800 border-[2px] rounded-lg shadow-lg m-12 p-6 mx-auto w-9/12 max-w-5xl`}>
       <div className="flex flex-wrap justify-center items-center gap-12">
         {sponsors.map((sponsor, index) => (
           <motion.a

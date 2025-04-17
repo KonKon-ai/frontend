@@ -38,7 +38,7 @@ export default function SignupBanner({
         <a
           href={signupLink.href}
           onClick={handleSignupClick} // Attach the click handler
-          className="text-3xl sm:text-5xl font-ethnocentric font-bold"
+          className="text-3xl sm:text-5xl font-ethnocentric font-bold hover:scale-110 transition-transform duration-300 ease-in-out"
         >
           {signupLink.label}
         </a>

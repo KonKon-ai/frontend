@@ -43,9 +43,11 @@ export default function Navbar({
     // Trigger the glow effect
     const emailInput = document.querySelector("input[name='email']");
     if (emailInput) {
+      emailInput.classList.remove("glow-effect-email");
       emailInput.classList.add("glow-effect");
       setTimeout(() => {
         emailInput.classList.remove("glow-effect");
+        emailInput.classList.add("glow-effect-email");
       }, 5000); // Remove the glow effect after 5 seconds
     }
   };
@@ -195,17 +197,7 @@ export default function Navbar({
                       {item.label === "Home" ? (
                         <button
                           onClick={() => {
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                            setMobileMenuOpen(false);
-                          }}
-                          className="hover:text-pinkKonkon"
-                        >
-                          {item.label}
-                        </button>
-                      ) : item.label === "Sponsors" ? (
-                        <button
-                          onClick={() => {
-                            handleScrollToSponsors();
+                            handleNavigateToHome();
                             setMobileMenuOpen(false);
                           }}
                           className="hover:text-pinkKonkon"

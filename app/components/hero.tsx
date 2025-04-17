@@ -87,7 +87,7 @@ export default function Hero({
           name="email"
           placeholder="Your email"
           required
-          className="font-ocr max-w-md w-10/12 sm:w-72 px-4 py-2 border-[1.5px] rounded-lg focus:outline-none focus:ring-1 focus:ring-aquaKonkon bg-gray-800 border-gray-500 text-gray-100"
+          className="font-ocr max-w-md w-10/12 sm:w-72 px-4 py-2 border-[1.5px] rounded-lg focus:outline-none focus:ring-1 focus:ring-aquaKonkon bg-gray-800 border-gray-500 text-gray-100 glow-effect-email"
           disabled={loading} // Disable input while loading
         />
         <button

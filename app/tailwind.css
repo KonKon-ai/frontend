@@ -27,8 +27,21 @@ body {
   }
 }
 
+@keyframes breathe-glow-continuous {
+  0%, 50%, 100%{
+    box-shadow: 0 0 3px 1px #63DCDD, 0 0 5px 2px #63DCDD;
+  }
+  25%, 75% {
+    box-shadow: 0 0 6px 3px #63DCDD, 0 0 10px 6px #63DCDD;
+  }
+}
+
 .glow-effect {
   animation: breathe-glow 3.5s ease-in-out;
+}
+
+.glow-effect-email {
+  animation: breathe-glow-continuous 8s infinite ease-in-out;
 }
 
 
@@ -134,7 +147,6 @@ body {
 
   .glitch-effect {
     @apply relative text-center;
-    font-size: 100px;
     margin: 0 auto;
   }
 
@@ -161,6 +173,54 @@ body {
     background-color: #141414;
     overflow: hidden;
     clip: rect(0, 900px, 0, 0);
-    animation: animate-glitch 2.5s linear alternate-reverse;
+    animation: animate-glitch 2s linear alternate-reverse;
+  }
+}
+
+
+@layer utilities {
+  @keyframes flicker-tier-1 {
+    0%, 19%, 20.6%, 22.2%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 6px 1px #FFD700, 0 0 12px 2px #FFD700, 0 0 18px 3px #FFD700;
+    }
+    19.8%, 21.4% {
+      opacity: 0.8;
+      box-shadow: 0 0 3px 1px #FFD700, 0 0 6px 2px #FFD700, 0 0 9px 2px #FFD700;
+    }
+  }
+
+  @keyframes flicker-tier-2 {
+    0%, 75%, 80%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 6px 1px #C0C0C0, 0 0 12px 2px #C0C0C0, 0 0 18px 3px #C0C0C0;
+    }
+    75.5% {
+      opacity: 0.9;
+      box-shadow: 0 0 3px 1px #C0C0C0, 0 0 6px 2px #C0C0C0, 0 0 9px 2px #C0C0C0;
+    }
+  }
+
+  @keyframes flicker-tier-3 {
+    0%, 10%, 11%, 12.5%, 55.4%, 55.8%, 56%, 74%, 75%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 6px 1px #CD7F32, 0 0 12px 2px #CD7F32, 0 0 18px 3px #CD7F32;
+    }
+    10.5%, 12%, 55.5%, 55.9%, 74.5% {
+      opacity: 0.8;
+      box-shadow: 0 0 3px 1px #CD7F32, 0 0 6px 2px #CD7F32, 0 0 9px 2px #CD7F32;
+    }
+  }
+
+  .flicker-tier-1 {
+    animation: flicker-tier-1 8s infinite;
+  }
+
+  .flicker-tier-2 {
+    animation: flicker-tier-2 10s infinite;
+  }
+
+  .flicker-tier-3 {
+    animation: flicker-tier-3 15s infinite;
   }
 }
