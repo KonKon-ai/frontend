@@ -59,12 +59,12 @@ export default function Footer({ data, strapiUrl }: FooterProps) {
                   {item.label === "Sponsors" ? (
                     <button
                       onClick={handleScrollToSponsors}
-                      className="hover:text-pinkKonkon"
+                      className="px-5 py-1.5 rounded transition-all duration-700 ease-in-out hover:bg-gray-800 hover:ring-pinkKonkon hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
                     >
                       {item.label}
                     </button>
                   ) : (
-                    <a href={item.href} className="hover:text-pinkKonkon">
+                    <a href={item.href} className="">
                       {item.label}
                     </a>
                   )}
