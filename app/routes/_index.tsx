@@ -60,8 +60,8 @@ export default function Index() {
         description={heroBlock.description}
         submit={heroBlock.submit}
       />
-      <BorderLine color="border-pinkKonkon" marginBottom="mb-1" />
-      <BorderLine color="border-aquaKonkon" />
+      <BorderLine color="border-pinkKonkon" marginBottom="mb-1" borderThickness="border-2"/>
+      <BorderLine color="border-aquaKonkon" borderThickness="border-2"/>
       {sponsorsBlock.map((block: any) => (
         <SponsorsSection
           key={block.id}
@@ -84,8 +84,8 @@ export default function Index() {
           strapiUrl={strapiUrl}
         />
       )}
-      <BorderLine color="border-pinkKonkon" marginBottom="mb-1" />
-      <BorderLine color="border-aquaKonkon" />
+      <BorderLine color="border-pinkKonkon" marginBottom="mb-1" borderThickness="border-2"/>
+      <BorderLine color="border-aquaKonkon" borderThickness="border-2"/>
       {signupBannerBlock && (
         <SignupBanner
           signupLink={signupBannerBlock.signupLink}
