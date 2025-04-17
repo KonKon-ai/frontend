@@ -92,13 +92,15 @@ export default function Hero({
         />
         <button
           type="submit"
-          className={`px-6 py-2 border-[1px] border-pinkKonkon bg-aquaKonkon font-ocr text-black hover:bg-gray-900 hover:text-white border-solid rounded-lg transition duration-700 ease-in-out ${
+          className={`px-6 py-2 border-[1.5px] border-pinkKonkon font-ocr text-black rounded-md transition-all duration-700 ease-in-out bg-aquaKonkon hover:text-white hover:bg-gray-900 hover:ring-2 hover:ring-pinkKonkon hover:ring-offset-2
+            ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           disabled={loading}
         >
           {loading ? <div className="loader"></div> : submit.label}
         </button>
+        
       </form>
     </section>
   );

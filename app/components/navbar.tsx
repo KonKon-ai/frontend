@@ -104,14 +104,14 @@ export default function Navbar({
                 {item.label === "Home" ? (
                   <button
                     onClick={handleNavigateToHome}
-                    className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
+                    className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-gray-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
                   >
                     {item.label}
                   </button>
                 ) : (
                   <a
                     href={item.href}
-                    className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-neutral-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
+                    className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-gray-800 hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
                   >
                     {item.label}
                   </a>
@@ -133,7 +133,7 @@ export default function Navbar({
               className="group"
             >
               <div
-                className="h-7 w-7 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-300 group-hover:scale-110"
+                className="h-7 w-7 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-500 group-hover:scale-110"
                 style={{
                   maskImage: `url(${buildImageUrl(strapiUrl, link.image.url)})`,
                   WebkitMaskImage: `url(${buildImageUrl(
@@ -151,7 +151,7 @@ export default function Navbar({
         </div>
         <button
           onClick={handleJoinWaitlistClick}
-          className="px-4 py-1 border-[1px] border-pinkKonkon bg-black font-ocr text-white hover:bg-pinkKonkon hover:text-black rounded-lg transition duration-700 ease-in-out"
+          className="px-4 py-1 border-[1.5px] bg-neutral border-pinkKonkon font-ocr text-white rounded-md transition-all duration-700 ease-in-out  hover:text-white hover:bg-gray-900 hover:ring-2 hover:ring-pinkKonkon hover:ring-offset-2"
         >
           {data.cta.label}
         </button>

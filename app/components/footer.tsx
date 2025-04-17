@@ -84,7 +84,7 @@ export default function Footer({ data, strapiUrl }: FooterProps) {
               className="group"
             >
               <div
-                className="h-5 w-5 bg-white group-hover:bg-pinkKonkon"
+                className="h-7 w-7 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-500 group-hover:scale-110"
                 style={{
                   maskImage: `url(${buildImageUrl(strapiUrl, link.image.url)})`,
                   WebkitMaskImage: `url(${buildImageUrl(
