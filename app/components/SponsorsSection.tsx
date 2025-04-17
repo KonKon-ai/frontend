@@ -10,13 +10,14 @@ interface Sponsor {
     url: string;
     alternativeText: string | null;
   };
+  tierIndex: number;
 }
 
 interface SponsorsSectionProps {
   tier: string;
   sponsors: Sponsor[];
   strapiUrl: string;
-  tierIndex: number; // used to determine animation direction
+  tierIndex?: number; //For determining animation direction (optional)
 }
 
 export default function SponsorsSection({
@@ -35,8 +36,8 @@ export default function SponsorsSection({
       ? "text-bronzeKonkon"
       : "text-white"; // Default color if no match
 
-  // Alternate slide direction by tierIndex
-  const slideDirection = tierIndex % 2 === 0 ? -100 : 100;  
+  // Alternate slide direction by tierIndex (tierIndex prop is optional)
+  const slideDirection = (tierIndex ?? 0) % 2 === 0 ? -100 : 100;
 
   return (
     <motion.section
