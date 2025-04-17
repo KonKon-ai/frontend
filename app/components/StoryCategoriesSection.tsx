@@ -24,6 +24,24 @@ export default function StoryCategoriesSection({
   categories,
   strapiUrl,
 }: StoryCategoriesSectionProps) {
+
+   // Fallback if categories are missing or empty
+   if (!categories || categories.length === 0) {
+    return (
+      <motion.section
+        className="py-12 max-w-6xl w-5/6 mx-auto text-center"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <h2 className="font-ethnocentric medium-heading font-bold py-12 mb-4 text-white">
+          {heading}
+        </h2>
+        <p className="text-gray-400 italic">Story categories coming soon...</p>
+      </motion.section>
+    );
+  }
+  
   return (
       <section className="py-12 max-w-6xl w-5/6 mx-auto">
         <h2 className="font-ethnocentric medium-heading font-bold text-center py-12 mb-12">{heading}</h2>
