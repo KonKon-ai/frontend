@@ -39,6 +39,26 @@ export default function SponsorsSection({
   // Alternate slide direction by tierIndex (tierIndex prop is optional)
   const slideDirection = (tierIndex ?? 0) % 2 === 0 ? -100 : 100;
 
+  // Fallback option in case sponsors fail to load
+  if (!sponsors || sponsors.length === 0) {
+    return (
+      <motion.section
+        className="pt-9"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <h2 className="font-ethnocentric medium-heading font-bold text-center mb-8 text-white">
+          {tier}
+        </h2>
+  
+        <div className="text-center text-gray-400 italic pb-12">
+          Sponsor info coming soon...
+        </div>
+      </motion.section>
+    );
+  }
+
   return (
     <motion.section
     id="sponsors-section"
@@ -72,7 +92,7 @@ export default function SponsorsSection({
             className="flex items-center justify-center"
             initial={{
               opacity: 0,
-              x: -100, // All sponsor logos still come in from the left
+              x: -100, // All sponsor sections come in from the left
             }}
             whileInView={{
               opacity: 1,
