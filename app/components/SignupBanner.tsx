@@ -1,4 +1,5 @@
-import { scrollToSection } from "~/utils/scrollHelpers";
+import { useLocation, useNavigate } from "@remix-run/react";
+import { handleNavigationAndGlow } from "~/utils/navigationHelpers";
 
 interface SignupBannerProps {
   signupLink: {
@@ -16,20 +17,12 @@ export default function SignupBanner({
   signupLink,
   logoLink,
 }: SignupBannerProps) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleSignupClick = (event: React.MouseEvent) => {
     event.preventDefault(); // Prevent default link behavior
-
-    // Scroll to the email section
-    scrollToSection("email-section", 100); // Adjust offset to match navbar height
-
-    // Trigger the glow effect on the email input
-    const emailInput = document.querySelector("input[name='email']");
-    if (emailInput) {
-      emailInput.classList.add("glow-effect");
-      setTimeout(() => {
-        emailInput.classList.remove("glow-effect");
-      }, 5000); // Remove the glow effect after 5 seconds
-    }
+    handleNavigationAndGlow(location, navigate, "email-section", 100);
   };
 
   return (

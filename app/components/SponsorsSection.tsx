@@ -14,34 +14,34 @@ interface Sponsor {
 }
 
 interface SponsorsSectionProps {
-  tier: string;
+  tierName: string;
   sponsors: Sponsor[];
   strapiUrl: string;
   tierIndex?: number; //For determining animation direction (optional)
 }
 
 export default function SponsorsSection({
-  tier,
+  tierName,
   sponsors,
   strapiUrl,
   tierIndex,
 }: SponsorsSectionProps) {
   // Determine the text color based on the tier
   const tierTextColor =
-    tier === "Tier 1 Sponsors"
+  tierName === "Tier 1 Sponsors"
       ? "text-goldKonkon"
-      : tier === "Tier 2 Sponsors"
+      : tierName === "Tier 2 Sponsors"
       ? "text-silverKonkon"
-      : tier === "Tier 3 Sponsors"
+      : tierName === "Tier 3 Sponsors"
       ? "text-bronzeKonkon"
       : "text-white"; // Default color if no match
 
     const flickerClass =
-    tier === "Tier 1 Sponsors"
+    tierName === "Tier 1 Sponsors"
       ? "flicker-tier-1"
-      : tier === "Tier 2 Sponsors"
+      : tierName === "Tier 2 Sponsors"
       ? "flicker-tier-2"
-      : tier === "Tier 3 Sponsors"
+      : tierName === "Tier 3 Sponsors"
       ? "flicker-tier-3"
       : "";
 
@@ -58,7 +58,7 @@ export default function SponsorsSection({
         transition={{ duration: 1 }}
       >
         <h2 className="font-ethnocentric medium-heading font-bold text-center mb-8 text-white">
-          {tier}
+          {tierName}
         </h2>
   
         <div className="text-center text-gray-400 italic pb-12">
@@ -86,7 +86,7 @@ export default function SponsorsSection({
     <h2
       className={`font-ethnocentric medium-heading font-bold text-center mb-8 ${tierTextColor}`}
     >
-      {tier}
+      {tierName}
     </h2>
 
     {/* Rectangle encapsulating all sponsors */}

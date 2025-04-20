@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { handleNavigationAndGlow } from "~/utils/navigationHelpers";
 import { buildImageUrl } from "~/utils/urlHelpers";
 import { scrollToSection } from "~/utils/scrollHelpers";
 import { GrAdd } from "react-icons/gr";
@@ -37,19 +38,7 @@ export default function Navbar({
   };
 
   const handleJoinWaitlistClick = () => {
-    // Scroll to the email section
-    scrollToSection("email-section", 100); // Adjust offset to match navbar height
-
-    // Trigger the glow effect
-    const emailInput = document.querySelector("input[name='email']");
-    if (emailInput) {
-      emailInput.classList.remove("glow-effect-email");
-      emailInput.classList.add("glow-effect");
-      setTimeout(() => {
-        emailInput.classList.remove("glow-effect");
-        emailInput.classList.add("glow-effect-email");
-      }, 5000); // Remove the glow effect after 5 seconds
-    }
+    handleNavigationAndGlow(location, navigate, "email-section", 100);
   };
 
   // THIS CAN BE REMOVED --------------------------------------------------------------------------------
@@ -58,13 +47,13 @@ export default function Navbar({
   };
   // THIS CAN BE REMOVED --------------------------------------------------------------------------------
 
-  const handleNavigateToHome = () => {
-    if (location.pathname === "/") {
-      // If already on the landing page, scroll to the top
+  const handleNavigation = (href: string) => {
+    if (location.pathname === href) {
+      // If already on the target page, scroll to the top
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Navigate to the landing page
-      navigate("/");
+      // Navigate to the target page
+      navigate(href);
     }
   };
 
@@ -91,7 +80,10 @@ export default function Navbar({
       {/* Left Section: Logo + Desktop Nav */}
       <div className="flex items-center space-x-6">
         {/* Logo */}
-        <button onClick={handleNavigateToHome} className="flex items-center">
+        <button
+          onClick={() => handleNavigation("/")}
+          className="flex items-center"
+        >
           <img
             src={buildImageUrl(strapiUrl, data.logo.image.url)}
             alt={data.logo.image.alternativeText || data.logo.label}
@@ -101,23 +93,18 @@ export default function Navbar({
         {/* Desktop Navigation Items */}
         <nav className="hidden md:block">
           <ul className="flex font-ocr items-center space-x-4">
-            {data.navItems.map((item: any) => (
+            {data.nav_items.map((item: any) => (
               <li key={item.id}>
-                {item.label === "Home" ? (
-                  <button
-                    onClick={handleNavigateToHome}
-                    className="relative h-9 overflow-hidden rounded bg-neutral-950 px-5 py-1.5 text-white transition-all duration-700 ease-in-out hover:bg-gray-800 hover:ring-pinkKonkon hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
-                  >
-                    {item.label}
-                  </button>
-                ) : (
-                  <a
-                    href={item.href}
-                    className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-gray-800 hover:ring-pinkKonkon hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
-                  >
-                    {item.label}
-                  </a>
-                )}
+                <a
+                  href={item.navItems.href}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent default link behavior
+                    handleNavigation(item.navItems.href || "/");
+                  }}
+                  className="relative h-12 overflow-hidden rounded bg-neutral-950 px-5 py-2.5 text-white transition-all duration-700 ease-in-out hover:bg-gray-800 hover:ring-pinkKonkon hover:ring-2 hover:ring-neutral-800 hover:ring-offset-2"
+                >
+                  {item.navItems.label}
+                </a>
               </li>
             ))}
           </ul>
@@ -126,21 +113,24 @@ export default function Navbar({
       {/* Right Section: Desktop Social Links + CTA */}
       <div className="hidden md:flex items-center space-x-4">
         <div className="flex items-center space-x-3">
-          {data.socialLinks.map((link: any) => (
+          {data.social_links.map((link: any) => (
             <a
-              key={link.id}
-              href={link.href}
-              target={link.isExternal ? "_blank" : "_self"}
+              key={link.socialLink.id}
+              href={link.socialLink.href}
+              target={link.socialLink.isExternal ? "_blank" : "_self"}
               rel="noreferrer"
               className="group"
             >
               <div
                 className="h-7 w-7 bg-white group-hover:bg-pinkKonkon transform transition-transform duration-500 group-hover:scale-110"
                 style={{
-                  maskImage: `url(${buildImageUrl(strapiUrl, link.image.url)})`,
+                  maskImage: `url(${buildImageUrl(
+                    strapiUrl,
+                    link.socialLink.image.url
+                  )})`,
                   WebkitMaskImage: `url(${buildImageUrl(
                     strapiUrl,
-                    link.image.url
+                    link.socialLink.image.url
                   )})`,
                   maskSize: "cover",
                   WebkitMaskSize: "cover",
@@ -185,34 +175,26 @@ export default function Navbar({
             >
               <nav>
                 <ul className="flex flex-col items-center space-y-4 text-2xl font-ocr">
-                  {data.navItems.map((item: any, index: number) => (
+                  {data.nav_items.map((item: any, index: number) => (
                     <motion.li
-                      key={item.id}
+                      key={item.navItems.id}
                       variants={menuItemVariants}
                       initial="hidden"
                       animate="visible"
                       exit="exit"
                       transition={{ duration: 0.4 }} // Staggered animation
                     >
-                      {item.label === "Home" ? (
-                        <button
-                          onClick={() => {
-                            handleNavigateToHome();
-                            setMobileMenuOpen(false);
-                          }}
-                          className="hover:text-pinkKonkon"
-                        >
-                          {item.label}
-                        </button>
-                      ) : (
-                        <a
-                          href={item.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="hover:text-pinkKonkon"
-                        >
-                          {item.label}
-                        </a>
-                      )}
+                      <a
+                        href={item.navItems.href}
+                        onClick={(e) => {
+                          e.preventDefault(); // Prevent default link behavior
+                          handleNavigation(item.navItems.href || "/");
+                          setMobileMenuOpen(false)
+                        }}
+                        className="hover:text-pinkKonkon"
+                      >
+                        {item.navItems.label}
+                      </a>
                     </motion.li>
                   ))}
                 </ul>
@@ -224,11 +206,11 @@ export default function Navbar({
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center space-x-3">
-                {data.socialLinks.map((link: any, index: number) => (
+                {data.social_links.map((link: any, index: number) => (
                   <motion.a
-                    key={link.id}
-                    href={link.href}
-                    target={link.isExternal ? "_blank" : "_self"}
+                    key={link.socialLink.id}
+                    href={link.socialLink.href}
+                    target={link.socialLink.isExternal ? "_blank" : "_self"}
                     rel="noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
                     className="group"
@@ -243,11 +225,11 @@ export default function Navbar({
                       style={{
                         maskImage: `url(${buildImageUrl(
                           strapiUrl,
-                          link.image.url
+                          link.socialLink.image.url
                         )})`,
                         WebkitMaskImage: `url(${buildImageUrl(
                           strapiUrl,
-                          link.image.url
+                          link.socialLink.image.url
                         )})`,
                         maskSize: "cover",
                         WebkitMaskSize: "cover",

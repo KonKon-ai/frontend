@@ -28,7 +28,7 @@ export default function sponsorsPage() {
     description: string;
     sponsors: {
       id: number;
-      tier: string;
+      tierName: string;
       sponsor: any[];
     }[];
     strapiUrl: string;
@@ -47,7 +47,7 @@ export default function sponsorsPage() {
       {sponsors.map((tier) => (
         <SponsorsSection
           key={tier.id}
-          tier={tier.tier}
+          tierName={tier.tierName}
           sponsors={tier.sponsor}
           strapiUrl={strapiUrl}
         />

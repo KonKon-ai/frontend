@@ -26,17 +26,22 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  const { blocks, strapiUrl } = useLoaderData<{
+  const { blocks, sponsors, strapiUrl } = useLoaderData<{
     blocks: any[];
+    sponsors: {
+      id: number;
+      tierName: string;
+      sponsor: any[];
+    }[];
     strapiUrl: string;
   }>();
 
   const heroBlock = blocks.find(
     (block: any) => block.__component === "blocks.hero"
   );
-  const sponsorsBlock = blocks.filter(
-    (block: any) => block.__component === "blocks.sponsors"
-  );
+  // const sponsorsBlock = blocks.filter(
+  //   (block: any) => block.__component === "blocks.sponsors"
+  // );
   const parallaxBannerBlock = blocks.find(
     (block: any) => block.__component === "blocks.parallax-banner"
   );
@@ -62,11 +67,11 @@ export default function Index() {
       />
       <BorderLine color="border-pinkKonkon" marginBottom="mb-1" borderThickness="border-2"/>
       <BorderLine color="border-aquaKonkon" borderThickness="border-2"/>
-      {sponsorsBlock.map((block: any) => (
+      {sponsors.map((tier) => (
         <SponsorsSection
-          key={block.id}
-          tier={block.tier}
-          sponsors={block.sponsor}
+          key={tier.id}
+          tierName={tier.tierName}
+          sponsors={tier.sponsor}
           strapiUrl={strapiUrl}
         />
       ))}
