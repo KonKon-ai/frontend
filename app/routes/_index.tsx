@@ -4,6 +4,7 @@ import { getLandingPageData } from "~/data.server";
 import Hero from "~/components/hero";
 import SponsorsSection from "~/components/SponsorsSection";
 import ParallaxBanner from "~/components/ParallaxBanner";
+import LatestArticles from "~/components/LatestArticles";
 import StoryCategoriesSection from "~/components/StoryCategoriesSection";
 import SignupBanner from "~/components/SignupBanner";
 import BorderLine from "~/components/BorderLine";
@@ -22,16 +23,41 @@ export const meta: MetaFunction = () => {
 export const loader: LoaderFunction = async () => {
   const landingPageData = await getLandingPageData();
   const strapiUrl = process.env.STRAPI_URL || "http://127.0.0.1:1337";
-  return { ...landingPageData, strapiUrl };
+
+  // Extract latestArticles from the response
+  const latestArticles = landingPageData.latestArticles || [];
+  console.log("Latest Articles:", latestArticles);
+
+  return { ...landingPageData, strapiUrl, ...latestArticles };
 };
 
 export default function Index() {
-  const { blocks, sponsors, strapiUrl } = useLoaderData<{
+  const { blocks, sponsors, strapiUrl, latestArticles } = useLoaderData<{
     blocks: any[];
     sponsors: {
       id: number;
       tierName: string;
       sponsor: any[];
+    }[];
+    latestArticles: {
+      id: number;
+      title: string;
+      description: string;
+      slug: string;
+      author: {
+        fullName: string;
+        image: {
+          url: string;
+          alternativeText: string | null;
+        };
+      };
+      featuredImage: {
+        url: string;
+        alternativeText: string | null;
+      };
+      contentTags: {
+        title: string;
+      }
     }[];
     strapiUrl: string;
   }>();
@@ -39,9 +65,6 @@ export default function Index() {
   const heroBlock = blocks.find(
     (block: any) => block.__component === "blocks.hero"
   );
-  // const sponsorsBlock = blocks.filter(
-  //   (block: any) => block.__component === "blocks.sponsors"
-  // );
   const parallaxBannerBlock = blocks.find(
     (block: any) => block.__component === "blocks.parallax-banner"
   );
@@ -82,6 +105,7 @@ export default function Index() {
           altText={"Parallax Banner"}
         />
       )}
+      <LatestArticles articles={latestArticles} strapiUrl={strapiUrl} />
       {storyCategoriesBlock && (
         <StoryCategoriesSection
           heading={storyCategoriesBlock.heading}

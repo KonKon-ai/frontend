@@ -66,10 +66,9 @@ export async function getGlobalData() {
   try {
     const response = await fetch(strapiBaseUrl + "/api/global");
     const data = await response.json();
-    console.dir(data, { depth: null });
+    
     // Flatten the data returned by Strapi
     const globalData = flattenAttributes(data.data);
-    console.dir(globalData, { depth: null });
     return globalData;
   } catch (error) {
     console.error("Error fetching global data", error);
@@ -85,6 +84,7 @@ export async function getLandingPageData() {
   try {
     const response = await fetch(strapiBaseUrl + "/api/landing-page");
     const data = await response.json();
+    console.dir(data, { depth: null });
 
     // Flatten the data returned by Strapi
     const landingPageData = flattenAttributes(data.data);
@@ -127,7 +127,6 @@ export async function getSponsors() {
 
     // Flatten the data returned by Strapi
     const sponsorsData = flattenAttributes(data.data);
-    console.dir(sponsorsData, { depth: null });
 
     return sponsorsData;
   } catch (error) {
@@ -143,7 +142,6 @@ export async function getAboutPageData() {
 
     // Flatten the data returned by Strapi
     const aboutPageData = flattenAttributes(data.data);
-    console.dir(aboutPageData, { depth: null });
 
     return aboutPageData;
   } catch (error) {

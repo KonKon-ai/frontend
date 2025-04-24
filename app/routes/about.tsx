@@ -18,7 +18,6 @@ export const meta: MetaFunction = () => {
 
 export const loader: LoaderFunction = async () => {
   const aboutPageData = await getAboutPageData();
-  console.log("About Page Data:", aboutPageData);
   const strapiUrl = process.env.STRAPI_URL || "http://127.0.0.1:1337";
   return {
     ...aboutPageData,

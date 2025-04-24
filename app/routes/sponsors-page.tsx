@@ -17,7 +17,6 @@ export const meta: MetaFunction = () => {
 
 export const loader: LoaderFunction = async () => {
   const sponsorsData = await getSponsors();
-  console.log("Sponsors Data:", sponsorsData);
   const strapiUrl = process.env.STRAPI_URL || "http://127.0.0.1:1337";
   return { ...sponsorsData, sponsors: sponsorsData.sponsors, strapiUrl };
 };
