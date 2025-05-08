@@ -61,7 +61,7 @@ export default function LatestArticles({
                 <span className="text-gray-800">{article.author.fullName}</span>
               </div>
               <a
-                href={`/articles/${article.slug}`}
+                href={`/news/${article.slug}`}
                 className="mt-4 inline-block text-pinkKonkon hover:underline"
               >
                 Read More

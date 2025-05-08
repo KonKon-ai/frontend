@@ -66,7 +66,7 @@ export async function getGlobalData() {
   try {
     const response = await fetch(strapiBaseUrl + "/api/global");
     const data = await response.json();
-    
+
     // Flatten the data returned by Strapi
     const globalData = flattenAttributes(data.data);
     return globalData;
@@ -147,5 +147,53 @@ export async function getAboutPageData() {
   } catch (error) {
     console.error("Error fetching about page data", error);
     throw error;
+  }
+}
+
+// Function to fetch news page/route data
+export async function getNewsPageData(queryParams: URLSearchParams) {
+  try {
+    const response = await fetch(strapiBaseUrl + "/api/news-article?" + queryParams.toString());
+    const data = await response.json();
+
+    // Flatten the data returned by Strapi
+    const newsPageData = flattenAttributes(data.data);
+    console.dir(newsPageData, { depth: null });
+    return {
+      heading: newsPageData.heading || "News",
+      description: newsPageData.description || "Stay updated with the latest news and articles.",
+      blocks: newsPageData.blocks || [], // Ensure blocks are included
+      articles: newsPageData.articlesCollection || [],
+      meta: data.meta || {},
+    };
+  } catch (error) {
+    console.error("Error fetching news page data", error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all tags from the Strapi backend.
+ */
+export async function getTags() {
+  try {
+    const response = await fetch(`${strapiBaseUrl}/api/tags`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch tags");
+    }
+
+    const data = await response.json();
+
+    // Flatten the tags data
+    const tags = data.data.map((tag: any) => ({
+      id: tag.id,
+      title: tag.title,
+      description: tag.description,
+    }));
+
+    return tags;
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    return []; // Return an empty array if there's an error
   }
 }
